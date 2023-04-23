@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const sdk = new CandyPay({
   api_key: process.env.CANDYPAY_PRIVATE_API_KEY!,
-  network: "mainnet",
+  network: "devnet",
   config: {
     collect_shipping_address: false,
   },
@@ -13,8 +13,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     try {
       const response = await sdk.session.create({
-        success_url: "http://localhost:3000/success",
-        cancel_url: "http://localhost:3000/cancel",
+        success_url: `${process.env.STATIC_URL}/success`,
+        cancel_url: `${process.env.STATIC_URL}/cancel`,
         tokens: ["dust", "samo", "shdw"], // SOL and USDC are default tokens and rest whitelisted tokens are optional to add and remove
         items: [
           {
